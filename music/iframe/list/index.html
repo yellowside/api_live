@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>音乐分类列表</title>
+<style type="text/css">
+* {margin: 0;padding: 0;outline: none;}
+html {height: 100%; }
+*html{background-image:url(about:blank);background-attachment:fixed;}
+body{height:100%;background:#232323;}
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; }
+h1, h2, h3, h4, h5, h6 { font-size:100%; }
+/*定位*/
+.none { display:none }
+/*通用*/
+.bingdoutv{ width:100%;height:100%;}
+.main {overflow:hidden; zoom:1 }
+.main .left-sider { float:left; width:100%; }
+.operate h3 { font-family: "Microsoft YaHei",微软雅黑; font-size:16px; background:#232323 url("../../../images/w-ico.png") 15px center no-repeat;_background:#232323 url("../../../images/w-ico-ie.png") 15px center no-repeat; height:43px; line-height:43px; padding-left:12px;color:#888;text-indent:30px; }
+.operate ul li { display:inline; margin-bottom:1px;}
+.operate ul li a { text-decoration:none; font-size:14px; color:#888; display:block;  height:43px;  line-height:43px;  }
+.operate ul li a.noline { border-bottom:none; }
+.operate ul li a:hover{ color:#eee;text-decoration:none;background:url("../../../images/w-ico20.png") 10px 10px no-repeat;_background:url("../../../images/w-ico20-ie.png") 10px 10px no-repeat;}
+.operate ul li a.sel{ color:#eee;text-decoration:none;background:url("../../../images/w-ico20.png") 10px 10px no-repeat;_background:url("../../../images/w-ico20-ie.png") 10px 10px no-repeat;}
+.operate ul li a.selected:hover { color:#fff; }
+.operate ul li .selected { background-color:#eee;  background-position:200px -9px; color:#fff; }
+.operate ul li {  display:inline-block; width:100%; position: relative; min-height:43px; _height:43px; z-index: 10; zoom:1 }
+.operate ul li h1 {color:#d7d7d7;font-size:14px;height:30px;line-height:30px;padding-left:30px;border-bottom:1px solid #303030;}
+.operate ul li h4 { cursor:pointer; background:#2e2e2e url(https://gh.bingdou.com.cn/gh/yellowside/bingdoutv/images/bg3.png) no-repeat 10px 18px; padding-left:30px; text-decoration:none; font-size:14px; color:#999; display:block;  line-height:43px; font-weight:normal; }
+.operate ul li.noline { border-bottom:none; }
+.operate ul li h4:hover { color:#eee; text-decoration:none; }
+.operate ul li.selected h4 { background-position:10px -37px; }
+.operate ul li a { }
+.operate ul li .on a { color:#eee; font-weight:bold; }
+.operate ul li a:hover { color:#eee; text-decoration:none;}
+.bg-color { background-color:#8caf00; }
+.operate li .list-item { padding:5px 0; position:relative; zoom:1;background:#232323; }
+.operate li .list-item p { padding-left:8px;white-space:nowrap;}
+.operate li .list-item a { background:none;  border:none; color: #888; display:block; height:32px; line-height: 32px; margin: 0 -1px 0 1px; padding-left: 30px;  position: relative; text-decoration: none; font-size:12px;background:url("../../../images/w-ico19.png") 10px 10px no-repeat;_background:url("../../../images/w-ico19-ie.png") 10px 10px no-repeat; }
+::-webkit-scrollbar{width: 12px;height: 12px;}/*滚动条整体*/
+::-webkit-scrollbar-track{border-radius: 8px; background-color: rgba(225,255,255,.8);}/*轨道*/
+::-webkit-scrollbar-thumb{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.2); background-color: rgba(23,124,176,.8);}/*滑块*/
+::-webkit-scrollbar-thumb:hover{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(255,250,250,.2); background-color: rgba(255,78,32,.8);}/*效果*/
+</style>
+<script src="https://player.alicdn.com/resource/base/lib/jquery-1.8.3.min.js"></script>
+<script>
+// JavaScript Document
+function navList(id) {
+    var $obj = $("#J_navlist"), $item = $("#J_nav_" + id);
+    $item.addClass("on").parent().removeClass("none").parent().addClass("selected");
+    $obj.find("h4").hover(function () {
+        $(this).addClass("hover");
+    }, function () {
+        $(this).removeClass("hover");
+    });
+    $obj.find("p").hover(function () {
+        if ($(this).hasClass("on")) { return; }
+        $(this).addClass("hover");
+    }, function () {
+        if ($(this).hasClass("on")) { return; }
+        $(this).removeClass("hover");
+    });
+    $obj.find("h4").click(function () {
+        var $div = $(this).siblings(".list-item");
+        if ($(this).parent().hasClass("selected")) {
+            $div.slideUp(600);
+            $(this).parent().removeClass("selected");
+        }
+        if ($div.is(":hidden")) {
+            $("#J_navlist li").find(".list-item").slideUp(600);
+            $("#J_navlist li").removeClass("selected");
+            $(this).parent().addClass("selected");
+            $div.slideDown(600);
+
+        } else {
+            $div.slideUp(600);
+        }
+    });
+}
+</script>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<div class="bingdoutv">
+  <div class="main">
+    <div class="left-sider">
+      <div class="operate">
+        <h3><i class="fa fa-bars"></i> 音乐分类<a style="margin-left:5px;color:#888;text-decoration:none;font-size:13px;" rel="nofollow" href='javascript:location.reload()'>(刷新)</a></h3>
+        <ul id="J_navlist">
+      <li>
+            <div class="list-item">
+      <h1>特色榜</h1>
+            <p><a href="../../toplist/?cat=飙升榜&id=19723756" target="play" title="飙升榜">飙升榜</a></p>
+            <p><a href="../../toplist/?cat=新歌榜&id=3779629" target="play" title="新歌榜">新歌榜</a></p>
+            <p><a href="../../toplist/?cat=原创榜&id=2884035" target="play" title="原创榜">原创榜</a></p>
+            <p><a href="../../toplist/?cat=热歌榜&id=3778678" target="play" title="热歌榜">热歌榜</a></p>
+      <h1>语种</h1>
+            <p><a href="../../list/?cat=华语" target="play" title="华语">华语</a></p>
+            <p><a href="../../list/?cat=欧美" target="play" title="欧美">欧美</a></p>
+            <p><a href="../../list/?cat=日语" target="play" title="日语">日语</a></p>
+            <p><a href="../../list/?cat=韩语" target="play" title="韩语">韩语</a></p>
+            <p><a href="../../list/?cat=粤语" target="play" title="粤语">粤语</a></p>
+      <h1>风格</h1>
+            <p><a href="../../list/?cat=流行" target="play" title="流行">流行</a></p>
+            <p><a href="../../list/?cat=摇滚" target="play" title="摇滚">摇滚</a></p>
+            <p><a href="../../list/?cat=民谣" target="play" title="民谣">民谣</a></p>
+            <p><a href="../../list/?cat=电子" target="play" title="电子">电子</a></p>
+            <p><a href="../../list/?cat=舞曲" target="play" title="舞曲">舞曲</a></p>
+            <p><a href="../../list/?cat=说唱" target="play" title="说唱">说唱</a></p>
+            <p><a href="../../list/?cat=轻音乐" target="play" title="轻音乐">轻音乐</a></p>
+            <p><a href="../../list/?cat=爵士" target="play" title="爵士">爵士</a></p>
+            <p><a href="../../list/?cat=乡村" target="play" title="乡村">乡村</a></p>
+            <p><a href="../../list/?cat=R&B/Soul" target="play" title="R&B/Soul">R&B/Soul</a></p>
+            <p><a href="../../list/?cat=古典" target="play" title="古典">古典</a></p>
+            <p><a href="../../list/?cat=民族" target="play" title="民族">民族</a></p>
+            <p><a href="../../list/?cat=英伦" target="play" title="英伦">英伦</a></p>
+            <p><a href="../../list/?cat=金属" target="play" title="金属">金属</a></p>
+            <p><a href="../../list/?cat=朋克" target="play" title="朋克">朋克</a></p>
+            <p><a href="../../list/?cat=蓝调" target="play" title="蓝调">蓝调</a></p>
+            <p><a href="../../list/?cat=雷鬼" target="play" title="雷鬼">雷鬼</a></p>
+            <p><a href="../../list/?cat=世界音乐" target="play" title="世界音乐">世界音乐</a></p>
+            <p><a href="../../list/?cat=拉丁" target="play" title="拉丁">拉丁</a></p>
+            <p><a href="../../list/?cat=NewAge" target="play" title="New Age">New Age</a></p>
+            <p><a href="../../list/?cat=古风" target="play" title="古风">古风</a></p>
+            <p><a href="../../list/?cat=后摇" target="play" title="后摇">后摇</a></p>
+            <p><a href="../../list/?cat=BossaNova" target="play" title="Bossa Nova">Bossa Nova</a></p>
+            <h1>场景</h1>
+            <p><a href="../../list/?cat=清晨" target="play" title="清晨">清晨</a></p>
+            <p><a href="../../list/?cat=夜晚" target="play" title="夜晚">夜晚</a></p>
+            <p><a href="../../list/?cat=学习" target="play" title="学习">学习</a></p>
+            <p><a href="../../list/?cat=工作" target="play" title="工作">工作</a></p>
+            <p><a href="../../list/?cat=午休" target="play" title="午休">午休</a></p>
+            <p><a href="../../list/?cat=下午茶" target="play" title="下午茶">下午茶</a></p>
+            <p><a href="../../list/?cat=地铁" target="play" title="地铁">地铁</a></p>
+            <p><a href="../../list/?cat=驾车" target="play" title="驾车">驾车</a></p>
+            <p><a href="../../list/?cat=运动" target="play" title="运动">运动</a></p>
+            <p><a href="../../list/?cat=旅行" target="play" title="旅行">旅行</a></p>
+            <p><a href="../../list/?cat=散步" target="play" title="散步">散步</a></p>
+            <p><a href="../../list/?cat=酒吧" target="play" title="酒吧">酒吧</a></p>
+            <h1>情感</h1>
+            <p><a href="../../list/?cat=怀旧" target="play" title="怀旧">怀旧</a></p>
+            <p><a href="../../list/?cat=清新" target="play" title="清新">清新</a></p>
+            <p><a href="../../list/?cat=浪漫" target="play" title="浪漫">浪漫</a></p>
+            <p><a href="../../list/?cat=伤感" target="play" title="伤感">伤感</a></p>
+            <p><a href="../../list/?cat=治愈" target="play" title="治愈">治愈</a></p>
+            <p><a href="../../list/?cat=放松" target="play" title="放松">放松</a></p>
+            <p><a href="../../list/?cat=孤独" target="play" title="孤独">孤独</a></p>
+            <p><a href="../../list/?cat=感动" target="play" title="感动">感动</a></p>
+            <p><a href="../../list/?cat=兴奋" target="play" title="兴奋">兴奋</a></p>
+            <p><a href="../../list/?cat=快乐" target="play" title="快乐">快乐</a></p>
+            <p><a href="../../list/?cat=安静" target="play" title="安静">安静</a></p>
+            <p><a href="../../list/?cat=思念" target="play" title="思念">思念</a></p>
+            <h1>主题</h1>
+            <p><a href="../../list/?cat=综艺" target="play" title="综艺">综艺</a></p>
+            <p><a href="../../list/?cat=影视原声" target="play" title="影视原声">影视原声</a></p>
+            <p><a href="../../list/?cat=ACG" target="play" title="ACG">ACG</a></p>
+            <p><a href="../../list/?cat=儿童" target="play" title="儿童">儿童</a></p>
+            <p><a href="../../list/?cat=校园" target="play" title="校园">校园</a></p>
+            <p><a href="../../list/?cat=游戏" target="play" title="游戏">游戏</a></p>
+            <p><a href="../../list/?cat=70后" target="play" title="70后">70后</a></p>
+            <p><a href="../../list/?cat=80后" target="play" title="80后">80后</a></p>
+            <p><a href="../../list/?cat=90后" target="play" title="90后">90后</a></p>
+            <p><a href="../../list/?cat=00后" target="play" title="00后">00后</a></p>
+            <p><a href="../../list/?cat=网络歌曲" target="play" title="网络歌曲">网络歌曲</a></p>
+            <p><a href="../../list/?cat=KTV" target="play" title="KTV">KTV</a></p>
+            <p><a href="../../list/?cat=经典" target="play" title="经典">经典</a></p>
+            <p><a href="../../list/?cat=翻唱" target="play" title="翻唱">翻唱</a></p>
+            <p><a href="../../list/?cat=吉他" target="play" title="吉他">吉他</a></p>
+            <p><a href="../../list/?cat=钢琴" target="play" title="钢琴">钢琴</a></p>
+            <p><a href="../../list/?cat=器乐" target="play" title="器乐">器乐</a></p>
+            <p><a href="../../list/?cat=榜单" target="play" title="榜单">榜单</a></p>
+      </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+        window.onload = function(){
+            document.onkeydown = function (){
+                var e = window.event || arguments[0];
+                //F12
+                if(e.keyCode == 123){
+                    return false;
+                //Ctrl+Shift+I
+                }else if((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)){
+                    return false;
+                //Shift+F10
+                }else if((e.shiftKey) && (e.keyCode == 121)){
+                    return false;
+                //Ctrl+U
+                }else if((e.ctrlKey) && (e.keyCode == 85)){
+                    return false;
+                }
+            };
+            document.oncontextmenu = function (){
+                return false;
+            }
+        }
+</script>
+<script type="text/javascript" src="https://js.users.51.la/21659431.js"></script>
+</body>
+</html>

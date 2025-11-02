@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>频道列表</title>
+<style type="text/css">
+* {margin: 0;padding: 0;outline: none;}
+html {height: 100%; }
+*html{background-image:url(about:blank);background-attachment:fixed;}
+body{height:100%;background:#232323;}
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; }
+h1, h2, h3, h4, h5, h6 { font-size:100%; }
+/*定位*/
+.none { display:none }
+/*通用*/
+.bingdoutv{ width:100%;height:100%;}
+.main {overflow:hidden; zoom:1 }
+.main .left-sider { float:left; width:100%; }
+.operate h3 { font-family: "Microsoft YaHei",微软雅黑; font-size:16px; background:#232323 url("../images/w-ico.png") 15px center no-repeat;_background:#232323 url("../images/w-ico-ie.png") 15px center no-repeat; height:43px; line-height:43px; padding-left:12px;color:#888;text-indent:30px; }
+.operate ul li { display:inline; margin-bottom:1px;}
+.operate ul li a { text-decoration:none; font-size:14px; color:#888; display:block;  height:43px;  line-height:43px;  }
+.operate ul li a.noline { border-bottom:none; }
+.operate ul li a:hover{ color:#eee;text-decoration:none;background:url("../images/w-ico20.png") 10px 10px no-repeat;_background:url("../images/w-ico20-ie.png") 10px 10px no-repeat;}
+.operate ul li a.sel{ color:#eee;text-decoration:none;background:url("../images/w-ico20.png") 10px 10px no-repeat;_background:url("../images/w-ico20-ie.png") 10px 10px no-repeat;}
+.operate ul li a.selected:hover { color:#fff; }
+.operate ul li .selected { background-color:#eee;  background-position:200px -9px; color:#fff; }
+.operate ul li {  display:inline-block; width:100%; position: relative; min-height:43px; _height:43px; z-index: 10; zoom:1 }
+.operate ul li h1 {color:#d7d7d7;font-size:14px;height:30px;line-height:30px;padding-left:30px;border-bottom:1px solid #303030;}
+.operate ul li h4 { cursor:pointer; background:#2e2e2e url(../images/bg3.png) no-repeat 10px 18px; padding-left:30px; text-decoration:none; font-size:14px; color:#999; display:block;  line-height:43px; font-weight:normal; }
+.operate ul li.noline { border-bottom:none; }
+.operate ul li h4:hover { color:#eee; text-decoration:none; }
+.operate ul li.selected h4 { background-position:10px -37px; }
+.operate ul li a { }
+.operate ul li .on a { color:#eee; font-weight:bold; }
+.operate ul li a:hover { color:#eee; text-decoration:none;}
+.bg-color { background-color:#8caf00; }
+.operate li .list-item { padding:5px 0; position:relative; zoom:1;background:#232323; }
+.operate li .list-item p { padding-left:8px;white-space:nowrap;}
+.operate li .list-item a { background:none;  border:none; color: #888; display:block; height:32px; line-height: 32px; margin: 0 -1px 0 1px; padding-left: 30px;  position: relative; text-decoration: none; font-size:12px;background:url("../images/w-ico19.png") 10px 10px no-repeat;_background:url("../images/w-ico19-ie.png") 10px 10px no-repeat; }
+::-webkit-scrollbar{width: 12px;height: 12px;}/*滚动条整体*/
+::-webkit-scrollbar-track{border-radius: 8px; background-color: rgba(225,255,255,.8);}/*轨道*/
+::-webkit-scrollbar-thumb{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.2); background-color: rgba(23,124,176,.8);}/*滑块*/
+::-webkit-scrollbar-thumb:hover{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(255,250,250,.2); background-color: rgba(255,78,32,.8);}/*效果*/
+</style>
+<script src="https://cdnjs.misidao.cn/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" charset="utf-8"></script>
+<script src="https://player.alicdn.com/resource/base/lib/jquery-1.8.3.min.js"></script>
+<script>
+// JavaScript Document
+function navList(id) {
+    var $obj = $("#J_navlist"), $item = $("#J_nav_" + id);
+    $item.addClass("on").parent().removeClass("none").parent().addClass("selected");
+    $obj.find("h4").hover(function () {
+        $(this).addClass("hover");
+    }, function () {
+        $(this).removeClass("hover");
+    });
+    $obj.find("p").hover(function () {
+        if ($(this).hasClass("on")) { return; }
+        $(this).addClass("hover");
+    }, function () {
+        if ($(this).hasClass("on")) { return; }
+        $(this).removeClass("hover");
+    });
+    $obj.find("h4").click(function () {
+        var $div = $(this).siblings(".list-item");
+        if ($(this).parent().hasClass("selected")) {
+            $div.slideUp(600);
+            $(this).parent().removeClass("selected");
+        }
+        if ($div.is(":hidden")) {
+            $("#J_navlist li").find(".list-item").slideUp(600);
+            $("#J_navlist li").removeClass("selected");
+            $(this).parent().addClass("selected");
+            $div.slideDown(600);
+
+        } else {
+            $div.slideUp(600);
+        }
+    });
+}
+</script>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<div class="bingdoutv">
+  <div class="main">
+    <div class="left-sider">
+      <div class="operate">
+        <h3><i class="fa fa-bars"></i> 直播列表<a style="margin-left:5px;color:#888;text-decoration:none;font-size:13px;" rel="nofollow" href='javascript:location.reload()'>(刷新)</a></h3>
+        <ul id="J_navlist">
+          <li>
+            <h4>热门直播</h4>
+            <div class="list-item">
+      <p><a href="https://player.bingdou.vip/?url=https://www.bilibili.com/video/BV1fanhzWEtF/" target="play" title="2025刘德华巡回演唱会">刘德华巡回演唱会</a></p>
+      <p><a href="../huya/?id=11342412&name=周星驰系列" target="play" title="周星驰系列">周星驰系列</a></p>
+      <p><a href="../huya/?id=11342386&name=成龙系列" target="play" title="成龙经典武打动作片">成龙系列</a></p>
+      <p><a href="../huya/?id=11342424&name=刘德华系列" target="play" title="刘德华系列电影">刘德华系列</a></p>
+      <p><a href="../huya/?id=11342421&name=林正英系列" target="play" title="林正英搞笑僵尸系列">林正英系列</a></p>
+      <p><a href="../huya/?id=11601968&name=沈腾系列" target="play" title="沈腾经典片">沈腾系列</a></p>
+      <p><a href="../huya/?id=11342387&name=周润发系列" target="play" title="周润发系列电影">周润发系列</a></p>
+      <p><a href="../huya/?id=11282233&name=五福星系列" target="play" title="五福星搞笑系列">五福星系列</a></p>
+      <p><a href="../huya/?id=11342390&name=李连杰系列" target="play" title="李连杰武打系列">李连杰系列</a></p>
+      <p><a href="../huya/?id=11342427&name=金庸系列" target="play" title="金庸群侠篇电影">金庸系列</a></p>
+            </div>
+          </li>
+      <li>
+            <h4>聚合直播</h4>
+            <div class="list-item none">
+      <p><a href="../huya/list/?id=2135&name=影视轮播" target="play" title="影视轮播">影视轮播</a></p>
+      <p><a href="../huya/list/?id=2633&name=二次元" target="play" title="二次元">二次元</a></p>
+      <p><a href="../huya/list/?id=6861&name=原创" target="play" title="原创">原创</a></p>
+      <p><a href="../huya/list/?id=2168&name=颜值" target="play" title="颜值">颜值</a></p>
+      <p><a href="../huya/list/?id=2356&name=体育" target="play" title="体育">体育</a></p>
+      <p><a href="../huya/list/?id=100022&name=娱乐天地" target="play" title="娱乐天地">娱乐天地</a></p>
+      <p><a href="../huya/list/?id=100023&name=网游竞技" target="play" title="网游竞技">网游竞技</a></p>
+      <p><a href="../huya/list/?id=100002&name=单机热游" target="play" title="单机热游">单机热游</a></p>
+      <p><a href="../huya/list/?id=100004&name=手游休闲" target="play" title="手游休闲">手游休闲</a></p>
+            </div>
+          </li>
+      <li>
+            <h4>央视频道</h4>
+            <div class="list-item none">
+            <h1>中央电视台</h1>
+      <p><a href="../tv/?id=cctv1" target="play" title="CCTV1综合">CCTV1综合</a></p>
+      <p><a href="../tv/?id=cctv2" target="play" title="CCTV2财经">CCTV2财经</a></p>
+      <p><a href="../tv/?id=cctv3" target="play" title="CCTV3综艺">CCTV3综艺</a></p>
+      <p><a href="../tv/?id=cctv4" target="play" title="CCTV4中文国际">CCTV4中文国际</a></p>
+      <p><a href="../tv/?id=cctv4o" target="play" title="CCTV4中文国际欧洲">CCTV4欧洲</a></p>
+      <p><a href="../tv/?id=cctv4m" target="play" title="CCTV4中文国际美洲">CCTV4美洲</a></p>
+      <p><a href="../tv/?id=cctv5" target="play" title="CCTV5体育">CCTV5体育</a></p>
+      <p><a href="../tv/?id=cctv5p" target="play" title="CCTV5+体育赛事">CCTV5+体育赛事</a></p>
+      <p><a href="../tv/?id=cctv6" target="play" title="CCTV6电影">CCTV6电影</a></p>
+      <p><a href="../tv/?id=cctv7" target="play" title="CCTV7国防军事">CCTV7国防军事</a></p>
+      <p><a href="../tv/?id=cctv8" target="play" title="CCTV8电视剧">CCTV8电视剧</a></p>
+      <p><a href="../tv/?id=cctv9" target="play" title="CCTV9记录">CCTV9记录</a></p>
+      <p><a href="../tv/?id=cctv10" target="play" title="CCTV10科教">CCTV10科教</a></p>
+      <p><a href="../tv/?id=cctv11" target="play" title="CCTV11戏曲">CCTV11戏曲</a></p>
+      <p><a href="../tv/?id=cctv12" target="play" title="CCTV12社会与法">CCTV12社会与法</a></p>
+      <p><a href="../tv/?id=cctv13" target="play" title="CCTV13新闻">CCTV13新闻</a></p>
+      <p><a href="../tv/?id=cctv14" target="play" title="CCTV14少儿">CCTV14少儿</a></p>
+      <p><a href="../tv/?id=cctv15" target="play" title="CCTV15音乐">CCTV15音乐</a></p>
+      <p><a href="../tv/?id=cctv17" target="play" title="CCTV17农业农村">CCTV17农业农村</a></p>
+      <h1>央视国际频道</h1>
+      <p><a href="../tv/?id=cgtn" target="play" title="CGTN">CGTN</a></p>
+      <p><a href="../tv/?id=cgtnjl" target="play" title="CGTN纪录">CGTN纪录</a></p>
+      <p><a href="../tv/?id=cgtnf" target="play" title="CGTN法语">CGTN法语</a></p>
+      <p><a href="../tv/?id=cgtnr" target="play" title="CGTN俄语">CGTN俄语</a></p>
+            </div>
+          </li>
+      <li>
+            <h4>卫视频道</h4>
+            <div class="list-item none">
+      <p><a href="../tv/?id=fhzw" target="play" title="凤凰中文">凤凰中文</a></p>
+      <p><a href="../tv/?id=fhzx" target="play" title="凤凰资讯">凤凰资讯</a></p>
+      <p><a href="../tv/?id=fhhk" target="play" title="凤凰香港">凤凰香港</a></p>
+      <p><a href="../tv/?id=bjws" target="play" title="北京卫视">北京卫视</a></p>
+      <p><a href="../tv/?id=dfws" target="play" title="东方卫视">东方卫视</a></p>
+      <p><a href="../tv/?id=cqws" target="play" title="重庆卫视">重庆卫视</a></p>
+      <p><a href="../tv/?id=hljws" target="play" title="黑龙江卫视">黑龙江卫视</a></p>
+      <p><a href="../tv/?id=lnws" target="play" title="辽宁卫视">辽宁卫视</a></p>
+      <p><a href="../tv/?id=hbws" target="play" title="河北卫视">河北卫视</a></p>
+      <p><a href="../tv/?id=sdws" target="play" title="山东卫视">山东卫视</a></p>
+      <p><a href="../tv/?id=ahws" target="play" title="安徽卫视">安徽卫视</a></p>
+      <p><a href="../tv/?id=hnws" target="play" title="河南卫视">河南卫视</a></p>
+      <p><a href="../tv/?id=hubws" target="play" title="湖北卫视">湖北卫视</a></p>
+      <p><a href="../tv/?id=hunws" target="play" title="湖南卫视">湖南卫视</a></p>
+      <p><a href="../tv/?id=jxws" target="play" title="江西卫视">江西卫视</a></p>
+      <p><a href="../tv/?id=jsws" target="play" title="江苏卫视">江苏卫视</a></p>
+      <p><a href="../tv/?id=zjws" target="play" title="浙江卫视">浙江卫视</a></p>
+      <p><a href="../tv/?id=dnws" target="play" title="东南卫视">东南卫视</a></p>
+      <p><a href="../tv/?id=gdws" target="play" title="广东卫视">广东卫视</a></p>
+      <p><a href="../tv/?id=szws" target="play" title="深圳卫视">深圳卫视</a></p>
+      <p><a href="../tv/?id=gxws" target="play" title="广西卫视">广西卫视</a></p>
+      <p><a href="../tv/?id=gzws" target="play" title="贵州卫视">贵州卫视</a></p>
+      <p><a href="../tv/?id=scws" target="play" title="四川卫视">四川卫视</a></p>
+      <p><a href="../tv/?id=hinws" target="play" title="海南卫视">海南卫视</a></p>
+      <p><a href="../tv/?id=xzws" target="play" title="西藏卫视">西藏卫视</a></p>
+      <p><a href="../tv/?id=btws" target="play" title="兵团卫视">兵团卫视</a></p>
+      <p><a href="../tv/?id=xjws" target="play" title="新疆卫视">新疆卫视</a></p>
+      <p><a href="../tv/?id=kbws" target="play" title="康巴卫视">康巴卫视</a></p>
+      <p><a href="../tv/?id=ynws" target="play" title="云南卫视">云南卫视</a></p>
+      <p><a href="../tv/?id=sxiws" target="play" title="山西卫视">山西卫视</a></p>
+      <p><a href="../tv/?id=sxws" target="play" title="陕西卫视">陕西卫视</a></p>
+      <p><a href="../tv/?id=qhws" target="play" title="青海卫视">青海卫视</a></p>
+      <p><a href="../tv/?id=gsws" target="play" title="甘肃卫视">甘肃卫视</a></p>
+      <p><a href="../tv/?id=nxws" target="play" title="宁夏卫视">宁夏卫视</a></p>
+      <p><a href="../tv/?id=nmws" target="play" title="内蒙古卫视">内蒙古卫视</a></p>
+      <p><a href="../tv/?id=jlws" target="play" title="吉林卫视">吉林卫视</a></p>
+      <p><a href="../tv/?id=tjws" target="play" title="天津卫视">天津卫视</a></p>
+            </div>
+          </li>
+      <li>
+            <h4>电台直播</h4>
+            <div class="list-item none">
+      <p><a href="../fm/list/?id=407&name=网络台" target="play" title="网络台">网络台</a></p>
+      <p><a href="../fm/list/?id=433&name=网络台" target="play" title="网络台">资讯台</a></p>
+      <p><a href="../fm/list/?id=442&name=音乐台" target="play" title="音乐台">音乐台</a></p>
+      <p><a href="../fm/list/?id=429&name=交通台" target="play" title="交通台">交通台</a></p>
+      <p><a href="../fm/list/?id=439&name=经济台" target="play" title="经济台">经济台</a></p>
+      <p><a href="../fm/list/?id=432&name=文艺台" target="play" title="文艺台">文艺台</a></p>
+      <p><a href="../fm/list/?id=430&name=体育台" target="play" title="体育台">体育台</a></p>
+      <p><a href="../fm/list/?id=440&name=综合台" target="play" title="综合台">综合台</a></p>
+      <p><a href="../fm/list/?id=438&name=生活台" target="play" title="生活台">生活台</a></p>
+      <p><a href="../fm/list/?id=435&name=旅游台" target="play" title="旅游台">旅游台</a></p>
+      <p><a href="../fm/list/?id=436&name=曲艺台" target="play" title="曲艺台">曲艺台</a></p>
+      <p><a href="../fm/list/?id=434&name=方言台" target="play" title="方言台">方言台</a></p>
+      <p><a href="../fm/list/?id=3&name=北京" target="play" title="北京">北京</a></p>
+      <p><a href="../fm/list/?id=5&name=天津" target="play" title="天津">天津</a></p>
+      <p><a href="../fm/list/?id=7&name=河北" target="play" title="河北">河北</a></p>
+      <p><a href="../fm/list/?id=19&name=山西" target="play" title="山西">山西</a></p>
+      <p><a href="../fm/list/?id=31&name=内蒙古" target="play" title="内蒙古">内蒙古</a></p>
+      <p><a href="../fm/list/?id=44&name=辽宁" target="play" title="辽宁">辽宁</a></p>
+      <p><a href="../fm/list/?id=59&name=吉林" target="play" title="吉林">吉林</a></p>
+      <p><a href="../fm/list/?id=69&name=黑龙江" target="play" title="黑龙江">黑龙江</a></p>
+      <p><a href="../fm/list/?id=83&name=上海" target="play" title="上海">上海</a></p>
+      <p><a href="../fm/list/?id=85&name=江苏" target="play" title="江苏">江苏</a></p>
+      <p><a href="../fm/list/?id=99&name=浙江" target="play" title="浙江">浙江</a></p>
+      <p><a href="../fm/list/?id=111&name=安徽" target="play" title="安徽">安徽</a></p>
+      <p><a href="../fm/list/?id=129&name=福建" target="play" title="福建">福建</a></p>
+      <p><a href="../fm/list/?id=139&name=江西" target="play" title="江西">江西</a></p>
+      <p><a href="../fm/list/?id=151&name=山东" target="play" title="山东">山东</a></p>
+      <p><a href="../fm/list/?id=169&name=河南" target="play" title="河南">河南</a></p>
+      <p><a href="../fm/list/?id=187&name=湖北" target="play" title="湖北">湖北</a></p>
+      <p><a href="../fm/list/?id=202&name=湖南" target="play" title="湖南">湖南</a></p>
+      <p><a href="../fm/list/?id=217&name=广东" target="play" title="广东">广东</a></p>
+      <p><a href="../fm/list/?id=239&name=广西" target="play" title="广西">广西</a></p>
+      <p><a href="../fm/list/?id=254&name=海南" target="play" title="海南">海南</a></p>
+      <p><a href="../fm/list/?id=257&name=重庆" target="play" title="重庆">重庆</a></p>
+      <p><a href="../fm/list/?id=259&name=四川" target="play" title="四川">四川</a></p>
+      <p><a href="../fm/list/?id=281&name=贵州" target="play" title="贵州">贵州</a></p>
+      <p><a href="../fm/list/?id=291&name=云南" target="play" title="云南">云南</a></p>
+      <p><a href="../fm/list/?id=308&name=西藏" target="play" title="西藏">西藏</a></p>
+      <p><a href="../fm/list/?id=316&name=陕西" target="play" title="陕西">陕西</a></p>
+      <p><a href="../fm/list/?id=327&name=甘肃" target="play" title="甘肃">甘肃</a></p>
+      <p><a href="../fm/list/?id=342&name=青海" target="play" title="青海">青海</a></p>
+      <p><a href="../fm/list/?id=351&name=宁夏" target="play" title="宁夏">宁夏</a></p>
+      <p><a href="../fm/list/?id=357&name=新疆" target="play" title="新疆">新疆</a></p>
+            </div>
+          </li>
+          <li>
+            <h4>云音乐</h4>
+            <div class="list-item none">
+      <h1>特色榜</h1>
+            <p><a href="../music/toplist/?cat=飙升榜&id=19723756" target="play" title="飙升榜">飙升榜</a></p>
+            <p><a href="../music/toplist/?cat=新歌榜&id=3779629" target="play" title="新歌榜">新歌榜</a></p>
+            <p><a href="../music/toplist/?cat=原创榜&id=2884035" target="play" title="原创榜">原创榜</a></p>
+            <p><a href="../music/toplist/?cat=热歌榜&id=3778678" target="play" title="热歌榜">热歌榜</a></p>
+      <h1>语种</h1>
+            <p><a href="../music/list/?cat=华语" target="play" title="华语">华语</a></p>
+            <p><a href="../music/list/?cat=欧美" target="play" title="欧美">欧美</a></p>
+            <p><a href="../music/list/?cat=日语" target="play" title="日语">日语</a></p>
+            <p><a href="../music/list/?cat=韩语" target="play" title="韩语">韩语</a></p>
+            <p><a href="../music/list/?cat=粤语" target="play" title="粤语">粤语</a></p>
+      <h1>风格</h1>
+            <p><a href="../music/list/?cat=流行" target="play" title="流行">流行</a></p>
+            <p><a href="../music/list/?cat=摇滚" target="play" title="摇滚">摇滚</a></p>
+            <p><a href="../music/list/?cat=民谣" target="play" title="民谣">民谣</a></p>
+            <p><a href="../music/list/?cat=电子" target="play" title="电子">电子</a></p>
+            <p><a href="../music/list/?cat=舞曲" target="play" title="舞曲">舞曲</a></p>
+            <p><a href="../music/list/?cat=说唱" target="play" title="说唱">说唱</a></p>
+            <p><a href="../music/list/?cat=轻音乐" target="play" title="轻音乐">轻音乐</a></p>
+            <p><a href="../music/list/?cat=爵士" target="play" title="爵士">爵士</a></p>
+            <p><a href="../music/list/?cat=乡村" target="play" title="乡村">乡村</a></p>
+            <p><a href="../music/list/?cat=R&B/Soul" target="play" title="R&B/Soul">R&B/Soul</a></p>
+            <p><a href="../music/list/?cat=古典" target="play" title="古典">古典</a></p>
+            <p><a href="../music/list/?cat=民族" target="play" title="民族">民族</a></p>
+            <p><a href="../music/list/?cat=英伦" target="play" title="英伦">英伦</a></p>
+            <p><a href="../music/list/?cat=金属" target="play" title="金属">金属</a></p>
+            <p><a href="../music/list/?cat=朋克" target="play" title="朋克">朋克</a></p>
+            <p><a href="../music/list/?cat=蓝调" target="play" title="蓝调">蓝调</a></p>
+            <p><a href="../music/list/?cat=雷鬼" target="play" title="雷鬼">雷鬼</a></p>
+            <p><a href="../music/list/?cat=世界音乐" target="play" title="世界音乐">世界音乐</a></p>
+            <p><a href="../music/list/?cat=拉丁" target="play" title="拉丁">拉丁</a></p>
+            <p><a href="../music/list/?cat=NewAge" target="play" title="New Age">New Age</a></p>
+            <p><a href="../music/list/?cat=古风" target="play" title="古风">古风</a></p>
+            <p><a href="../music/list/?cat=后摇" target="play" title="后摇">后摇</a></p>
+            <p><a href="../music/list/?cat=BossaNova" target="play" title="Bossa Nova">Bossa Nova</a></p>
+            <h1>场景</h1>
+            <p><a href="../music/list/?cat=清晨" target="play" title="清晨">清晨</a></p>
+            <p><a href="../music/list/?cat=夜晚" target="play" title="夜晚">夜晚</a></p>
+            <p><a href="../music/list/?cat=学习" target="play" title="学习">学习</a></p>
+            <p><a href="../music/list/?cat=工作" target="play" title="工作">工作</a></p>
+            <p><a href="../music/list/?cat=午休" target="play" title="午休">午休</a></p>
+            <p><a href="../music/list/?cat=下午茶" target="play" title="下午茶">下午茶</a></p>
+            <p><a href="../music/list/?cat=地铁" target="play" title="地铁">地铁</a></p>
+            <p><a href="../music/list/?cat=驾车" target="play" title="驾车">驾车</a></p>
+            <p><a href="../music/list/?cat=运动" target="play" title="运动">运动</a></p>
+            <p><a href="../music/list/?cat=旅行" target="play" title="旅行">旅行</a></p>
+            <p><a href="../music/list/?cat=散步" target="play" title="散步">散步</a></p>
+            <p><a href="../music/list/?cat=酒吧" target="play" title="酒吧">酒吧</a></p>
+            <h1>情感</h1>
+            <p><a href="../music/list/?cat=怀旧" target="play" title="怀旧">怀旧</a></p>
+            <p><a href="../music/list/?cat=清新" target="play" title="清新">清新</a></p>
+            <p><a href="../music/list/?cat=浪漫" target="play" title="浪漫">浪漫</a></p>
+            <p><a href="../music/list/?cat=伤感" target="play" title="伤感">伤感</a></p>
+            <p><a href="../music/list/?cat=治愈" target="play" title="治愈">治愈</a></p>
+            <p><a href="../music/list/?cat=放松" target="play" title="放松">放松</a></p>
+            <p><a href="../music/list/?cat=孤独" target="play" title="孤独">孤独</a></p>
+            <p><a href="../music/list/?cat=感动" target="play" title="感动">感动</a></p>
+            <p><a href="../music/list/?cat=兴奋" target="play" title="兴奋">兴奋</a></p>
+            <p><a href="../music/list/?cat=快乐" target="play" title="快乐">快乐</a></p>
+            <p><a href="../music/list/?cat=安静" target="play" title="安静">安静</a></p>
+            <p><a href="../music/list/?cat=思念" target="play" title="思念">思念</a></p>
+            <h1>主题</h1>
+            <p><a href="../music/list/?cat=综艺" target="play" title="综艺">综艺</a></p>
+            <p><a href="../music/list/?cat=影视原声" target="play" title="影视原声">影视原声</a></p>
+            <p><a href="../music/list/?cat=ACG" target="play" title="ACG">ACG</a></p>
+            <p><a href="../music/list/?cat=儿童" target="play" title="儿童">儿童</a></p>
+            <p><a href="../music/list/?cat=校园" target="play" title="校园">校园</a></p>
+            <p><a href="../music/list/?cat=游戏" target="play" title="游戏">游戏</a></p>
+            <p><a href="../music/list/?cat=70后" target="play" title="70后">70后</a></p>
+            <p><a href="../music/list/?cat=80后" target="play" title="80后">80后</a></p>
+            <p><a href="../music/list/?cat=90后" target="play" title="90后">90后</a></p>
+            <p><a href="../music/list/?cat=00后" target="play" title="00后">00后</a></p>
+            <p><a href="../music/list/?cat=网络歌曲" target="play" title="网络歌曲">网络歌曲</a></p>
+            <p><a href="../music/list/?cat=KTV" target="play" title="KTV">KTV</a></p>
+            <p><a href="../music/list/?cat=经典" target="play" title="经典">经典</a></p>
+            <p><a href="../music/list/?cat=翻唱" target="play" title="翻唱">翻唱</a></p>
+            <p><a href="../music/list/?cat=吉他" target="play" title="吉他">吉他</a></p>
+            <p><a href="../music/list/?cat=钢琴" target="play" title="钢琴">钢琴</a></p>
+            <p><a href="../music/list/?cat=器乐" target="play" title="器乐">器乐</a></p>
+            <p><a href="../music/list/?cat=榜单" target="play" title="榜单">榜单</a></p>
+      </div>
+          </li>
+      <li>
+            <h4>经典影视</h4>
+            <div class="list-item none">
+      <p><a href="../film/?id=tbhdqx" target="play" title="唐伯虎点秋香">唐伯虎点秋香</a></p>
+      <p><a href="../film/?id=dushen" target="play" title="赌神（香港）">赌神</a></p>
+      <p><a href="../film/?id=duxia" target="play" title="赌侠1990(香港)">赌侠</a></p>
+      <p><a href="../film/?id=xltfn" target="play" title="夏洛特烦恼">夏洛特烦恼</a></p>
+      <p><a href="../film/?id=ywzjyz" target="play" title="叶问：终极一战">叶问：终极一战</a></p>
+      <p><a href="../film/?id=yewen" target="play" title="叶问">叶问</a></p>
+      <p><a href="../film/?id=zhanlang" target="play" title="战狼">战狼</a></p>
+      <p><a href="../film/?id=jdwy" target="play" title="建党伟业">建党伟业</a></p>
+      <p><a href="../film/?id=jgdy" target="play" title="建国大业">建国大业</a></p>
+      <p><a href="../film/?id=lhyx" target="play" title="烈火英雄">烈火英雄</a></p>
+      <p><a href="../film/?id=dsgl" target="play" title="西游记之大圣归来">大圣归来</a></p>
+      <p><a href="../film/?id=fuchou" target="play" title="复仇（香港）">复仇</a></p>
+      <p><a href="../film/?id=tmsj" target="play" title="甜蜜杀机（台湾）">甜蜜杀机</a></p>
+      <p><a href="../film/?id=cad" target="play" title="长安道">长安道</a></p>
+      <p><a href="../film/?id=jdzz" target="play" title="极道追踪">极道追踪</a></p>
+      <p><a href="../film/?id=lshq" target="play" title="乱世豪情">乱世豪情</a></p>
+      <p><a href="../film/?id=tsdl" target="play" title="新天龙八部之天山童姥">天山童姥</a></p>
+      <p><a href="../film/?id=qctj" target="play" title="全城通缉">全城通缉</a></p>
+      <p><a href="../film/?id=wcsh" target="play" title="无耻神混">无耻神混</a></p>
+      <p><a href="../film/?id=yjse" target="play" title="一九四二">一九四二</a></p>
+      <p><a href="../film/?id=xyml" target="play" title="钟馗伏魔：雪妖魔灵">雪妖魔灵</a></p>
+      <p><a href="../film/?id=sldn" target="play" title="少年的你">少年的你</a></p>
+      <p><a href="../film/?id=wlwz" target="play" title="武林外传">武林外传</a></p>
+            </div>
+          </li>
+        </ul>
+        <script type="text/javascript" language="javascript">
+      navList(12);
+    </script>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://js.users.51.la/21659431.js" integrity="sha512-d5GBZJpX5O5+OawqYI5/eTSMYv67YQuQ8orB1JQ/Wcyk2aMCCL1qVN6GeN7Lr+bnu4mcIAoJYhygCRaABnO5LA==" crossorigin="anonymous"></script>
+</body>
+</html>

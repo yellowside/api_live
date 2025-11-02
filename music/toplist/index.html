@@ -1,0 +1,129 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>加载中... - 冰豆直播</title>
+<link href="https://cdnjs.misidao.cn/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style type="text/css">
+<!--
+html, body{margin: 0px 0px;width: 100%;height: 100%;}body {overflow:hidden;font-size: 12px;margin: 0px;background-color: #000000;}body, td, th {font-size: 13px;color: #999999;}img {border:0}a {outline: none;}a:link {color: #CCCCCC;text-decoration: none;}a:visited {color: #999999;text-decoration: none;}a:hover {color: #CCCCCC;text-decoration: none;}a:active {color: #CCCCCC;text-decoration: none;}#jm {float:left;display:inline; height:40px; line-height:40px;margin-left:10px;}#qh a {float:right;display:inline;display:block;height:40px;padding:0 5px;color:#999;line-height:40px;text-decoration:none;text-align:center; margin-right:8px;}#qh a.qh,#qh a:hover {color:#fff;}#qh a.linesort{color:#99cc00}#bingdouplayer {width:100%; height:100%;}#cover {width:100%; height:100%;z-index:2;position:absolute;}#lbottom {position:absolute;bottom:0px;left:0px;z-index:2;}#loading {position:absolute;bottom:0px;left:130px;right:0px;z-index:3;width:auto;height:100%}#script {height:0px}* {box-sizing: border-box;}nav a, #sideMenu {margin: 0 10px 0 0;text-shadow: 1px 1px 2px #212121;}#scrollingNews {color: #fcfcfc;}#sideMenu {float:left;display:inline;height:40px;line-height:40px;color:red;z-index:3;}#sideMenuContainer {background: #202020;height: 80%;padding: 10px;position: fixed;top: 56px;right: -200px;width: 160px;z-index: 4;}#sideMenuContainer h2 {color: #fcfcfc;font: 14px 'PT Sans', Helvetica, Arial, sans-serif;letter-spacing: 2px;text-transform: uppercase;}#sideMenuContainer > a {display: block;padding: 5px 2px;}#sideMenuContainer > a::after {content: attr(title);font: 13px 'PT Sans', Helvetica, Arial, sans-serif;padding-left: 5px;text-transform: uppercase;}
+::-webkit-scrollbar{width: 12px;height: 12px;}/*滚动条整体*/
+::-webkit-scrollbar-track{border-radius: 8px; background-color: rgba(225,255,255,.8);}/*轨道*/
+::-webkit-scrollbar-thumb{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.2); background-color: rgba(23,124,176,.8);}/*滑块*/
+::-webkit-scrollbar-thumb:hover{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(255,250,250,.2); background-color: rgba(255,78,32,.8);}/*效果*/
+-->
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" style="background-color:#23262E">
+<tr id="jiemu">
+<td height="40" nowrap>
+<div id="jm"><i class="fa fa-angle-double-right"></i> <span id="category-name">加载中...</span></div>
+</td>
+</tr>
+<tr>
+<td width="100%">
+<div id="bingdouplayer">
+<table width="100%" height="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+<td>
+<!-- iframe的src将通过JS动态设置 -->
+<iframe name="listplayer" src="" width="100%" height="100%" allowtransparency="true" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" frameborder="0"></iframe>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+<!-- jQuery -->
+<script src="https://player.alicdn.com/resource/base/lib/jquery-1.8.3.min.js"></script>
+
+<!-- 侧边栏切换插件 (保留原样) -->
+<script type="text/javascript">
+(function($){
+  $.fn.sideToggle = function(options) {
+    var settings = $.extend({
+      moving : null,
+      direction : null
+    }, options);
+    return this.click(function(){
+      var thisDir = {};
+      var moveThis = settings.moving;
+      var dirPos = parseInt($(moveThis).css(settings.direction), 10);
+      var menuWidth = $(moveThis).outerWidth();
+      if (isNaN(dirPos)) {
+        console.log("Please define the object's position in the css.");
+      }
+      if (dirPos === 0) {
+        thisDir[settings.direction] = -menuWidth;
+        $(moveThis).animate(thisDir);
+      } else {
+        thisDir[settings.direction] = 0;
+        $(moveThis).animate(thisDir);
+      }
+    });
+  }
+}(jQuery));
+</script>
+
+<!-- 高亮当前选中项的函数 (保留原样) -->
+<script>
+var t=1;
+function test(x){
+  if(x==1&&t==1){
+    document.getElementById(x).style.color="red";
+  } else if(x!=t){
+    document.getElementById(x).style.color="red";
+    if(document.getElementById(t)) {
+        document.getElementById(t).style.color="orange";
+    }
+  } 
+  t=x;
+}
+</script>
+
+<!-- 主要逻辑脚本 -->
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. 从 URL 获取 'cat' 和 'id' 参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const cat = urlParams.get('cat');
+    const id = urlParams.get('id');
+
+    // 2. 动态设置页面标题和顶部栏
+    if (cat) {
+        document.title = `${cat} - 冰豆直播`;
+        document.getElementById('category-name').innerText = cat;
+    } else {
+        document.getElementById('category-name').innerText = '未指定分类';
+    }
+
+    // 3. 动态设置 iframe 的 src
+    const listPlayerIframe = document.querySelector('iframe[name="listplayer"]');
+    if (id) {
+        listPlayerIframe.src = `../?id=${id}`;
+    } else {
+        // 如果没有id，可以显示一个提示页面或留空
+        listPlayerIframe.src = 'about:blank'; // 或者一个自定义的提示页面
+    }
+
+    // 4. 初始化侧边栏切换功能 (增加健壮性检查)
+    // 检查 #sideMenu 和 #sideMenuContainer 是否都存在
+    if ($('#sideMenu').length > 0 && $('#sideMenuContainer').length > 0) {
+        $('#sideMenu').sideToggle({
+            moving: '#sideMenuContainer',
+            direction: 'left'
+        });
+    }
+});
+</script>
+<div id="foot"></div>
+<script>
+$('#foot').load('../foot.html', function(response, status, xhr) {
+  if (status === "error") {
+    console.error("加载失败");
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>API</title>
+    <style>
+:root {--sidebar-width:180px;--control-width:9px;}
+html,body {margin:0;height:100%;overflow:hidden;}
+body {font-size:12px;background:#000;color:#fff;}
+.container {display:flex;height:100%;}
+.main-content {flex:1;position:relative;}
+.sidebar-control {width:var(--control-width);background:#171a1d;cursor:pointer;display: flex; align-items: center; justify-content: center;}
+.sidebar {width:var(--sidebar-width);transition:transform 0.3s;}
+.iframe {width:100%;height:100%;border:0;background:transparent;}
+.toggle-button {display:block;width:10px;height:58px;line-height:58px;text-align:center;float:right;float: none;display: flex; align-items: center; justify-content: center;}
+.close .toggle-button {background:url(./images/right.gif) no-repeat 0 0;}
+.open .toggle-button {background:url(./images/left.gif) no-repeat 0 0;}
+.toggle-button:hover {background-position:-9px 0;}
+#welcome a {color:red}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <iframe id="play" name="play" class="iframe" src="./huya/?id=11342412&name=周星驰系列"></iframe>
+        </div>
+        <div id="sh" class="sidebar-control" role="button">
+            <span id="idFlag">
+                <div class="close">
+                    <a href="javascript:;" class="toggle-button" title="切换模式"></a>
+                </div>
+            </span>
+        </div>
+        <div id="tv_list" class="sidebar">
+            <iframe id="tvl" name="tvl" class="iframe" src="./list/" scrolling="auto" target="play"></iframe>
+        </div>
+    </div>
+    <script>
+        // DOM 操作封装
+        const $ = id => document.getElementById(id);
+        const createElement = (tag, attrs) => Object.assign(document.createElement(tag), attrs);
+
+        // 侧边栏状态管理
+        let sidebarVisible = true;
+        
+        function toggleSidebar(clickType) {
+            const sidebar = $('tv_list');
+            const flagElement = $('idFlag');
+            
+            sidebarVisible = !sidebarVisible;
+            sidebar.style.display = sidebarVisible ? 'block' : 'none';
+            
+            const buttonType = sidebarVisible ? 'close' : 'open';
+            flagElement.innerHTML = `
+                <div class="${buttonType}">
+                    <a href="javascript:;" class="toggle-button" 
+                       title="${sidebarVisible ? '切换到精简模式' : '切换到正常模式'}"></a>
+                </div>`;
+            
+            if (clickType === 0) {
+                $('sh').style.display = sidebarVisible ? 'block' : 'none';
+            }
+        }
+
+        // 安全策略
+        const disableShortcuts = (e) => {
+            const blockedCombinations = [
+                { key: 'F12', code: 123 },
+                { key: 'I', code: 73, ctrl: true, shift: true },
+                { key: 'F10', code: 121, shift: true },
+                { key: 'U', code: 85, ctrl: true }
+            ];
+
+            return blockedCombinations.some(({ code, ctrl, shift }) => 
+                e.keyCode === code && 
+                (!!ctrl === e.ctrlKey) && 
+                (!!shift === e.shiftKey)
+            );
+        };
+
+        // 事件监听
+        document.addEventListener('DOMContentLoaded', () => {
+            $('sh').addEventListener('click', () => toggleSidebar(1));
+            
+            document.addEventListener('keydown', (e) => {
+                if (disableShortcuts(e)) e.preventDefault();
+            });
+            
+            document.addEventListener('contextmenu', e => e.preventDefault());
+        });
+    </script>
+<script src="https://js.users.51.la/21659431.js"></script>
+</body>
+</html>

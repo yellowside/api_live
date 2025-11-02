@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<meta name="referrer" content="no-referrer"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8;"/>
+<title>fm</title>
+<link rel="stylesheet" href="https://cdnjs.misidao.cn/ajax/libs/aplayer/1.10.1/APlayer.min.css">
+<script src="https://player.alicdn.com/resource/base/lib/jquery-1.8.3.min.js"></script>
+<script src="https://cdnjs.misidao.cn/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script>
+<style type="text/css">
+h1{font-size:14px; color:#fff}
+::-webkit-scrollbar{width: 12px;height: 12px;}/*滚动条整体*/
+::-webkit-scrollbar-track{border-radius: 8px; background-color: rgba(225,255,255,.8);}/*轨道*/
+::-webkit-scrollbar-thumb{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.2); background-color: rgba(23,124,176,.8);}/*滑块*/
+::-webkit-scrollbar-thumb:hover{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(255,250,250,.2); background-color: rgba(255,78,32,.8);}/*效果*/
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<div id="APlayer"><h1>数据加载中…</h1></div>
+<script>
+  // 获取 URL 中的 id 参数
+  const urlParams = new URLSearchParams(window.location.search);
+  const videoid = urlParams.get('id');
+
+  if (!videoid) {
+    document.querySelector('#APlayer h1').innerText = '无效的视频ID';
+    throw new Error("缺少 id 参数");
+  }
+
+  const apiUrl = 'https://json.bingdou.cc/fm/?id=' + encodeURIComponent(videoid);
+
+  fetch(apiUrl)
+    .then(response => {
+      if (!response.ok) throw new Error("网络请求失败：" + response.status);
+      return response.json();
+    })
+    .then(json => {
+      if (!json.data || !Array.isArray(json.data)) {
+        throw new Error("无效的数据结构");
+      }
+
+      const result = json.data.map(item => ({
+        title: item.title,
+        author: item.author,
+        pic: item.pic,
+        url: item.url
+      }));
+
+      // 创建播放器
+      const demo = new APlayer({
+        element: document.getElementById('APlayer'),
+        showlrc: false,
+        fixed: false,
+        mini: false,
+        volume: 0.9,
+        preload: 'auto',
+        mutex: true,
+        autoplay: true,
+        listFolded: false,
+        listmaxheight: '100%',
+        audio: result
+      });
+
+      demo.init();
+
+    })
+    .catch(error => {
+      console.error(error);
+      document.querySelector('#APlayer h1').innerText = '数据加载失败，请刷新重试。';
+    });
+</script>
+<div id="foot"></div>
+<script>
+$('#foot').load('../foot.html', function(response, status, xhr) {
+  if (status === "error") {
+    console.error("加载失败");
+  }
+});
+</script>
+</body>
+</html>

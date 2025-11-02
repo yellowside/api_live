@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>正在加载 - 冰豆直播</title>
+<link href="https://cdnjs.misidao.cn/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style type="text/css">
+<!--
+html, body{margin: 0px 0px;width: 100%;height: 100%;}body {overflow:hidden;font-size: 12px;margin: 0px;background-color: #000000;}body, td, th {font-size: 13px;color: #999999;}img {border:0}a {outline: none;}a:link {color: #CCCCCC;text-decoration: none;}a:visited {color: #999999;text-decoration: none;}a:hover {color: #CCCCCC;text-decoration: none;}a:active {color: #CCCCCC;text-decoration: none;}#jm {float:left;display:inline; height:40px; line-height:40px;margin-left:10px;}#qh a {float:right;display:inline;display:block;height:40px;padding:0 5px;color:#999;line-height:40px;text-decoration:none;text-align:center; margin-right:8px;}#qh a.qh,#qh a:hover {color:#fff;}#qh a.linesort{color:#99cc00}#bingdouplayer {width:100%; height:100%;}#cover {width:100%; height:100%;z-index:2;position:absolute;}#lbottom {position:absolute;bottom:0px;left:0px;z-index:2;}#loading {position:absolute;bottom:0px;left:130px;right:0px;z-index:3;width:auto;height:100%}#script {height:0px}* {box-sizing: border-box;}nav a, #sideMenu {margin: 0 10px 0 0;text-shadow: 1px 1px 2px #212121;}#scrollingNews {color: #fcfcfc;}#sideMenu {float:left;display:inline;height:40px;line-height:40px;color:red;z-index:3;}#sideMenuContainer {background: #202020;height: 80%;padding: 10px;position: fixed;top: 56px;right: -200px;width: 160px;z-index: 4;}#sideMenuContainer h2 {color: #fcfcfc;font: 14px 'PT Sans', Helvetica, Arial, sans-serif;letter-spacing: 2px;text-transform: uppercase;}#sideMenuContainer > a {display: block;padding: 5px 2px;}#sideMenuContainer > a::after {content: attr(title);font: 13px 'PT Sans', Helvetica, Arial, sans-serif;padding-left: 5px;text-transform: uppercase;}
+::-webkit-scrollbar{width: 12px;height: 12px;}/*滚动条整体*/
+::-webkit-scrollbar-track{border-radius: 8px; background-color: rgba(225,255,255,.8);}/*轨道*/
+::-webkit-scrollbar-thumb{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.2); background-color: rgba(23,124,176,.8);}/*滑块*/
+::-webkit-scrollbar-thumb:hover{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(255,250,250,.2); background-color: rgba(255,78,32,.8);}/*效果*/
+-->
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" style="background-color:#23262E">
+    <tr id="jiemu">
+      <td height="40" nowrap>
+        <div id="jm"><i class="fa fa-angle-double-right"></i> <span id="channel-name">正在加载...</span></div>
+      </td>
+    </tr>
+    <tr>
+      <td width="100%">
+        <div id="bingdouplayer">
+          <table width="100%" height="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <iframe name="listplayer" id="player-frame" src="" width="100%" height="100%" allowtransparency="true"
+                  allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" frameborder="0"></iframe>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+<script src="https://player.alicdn.com/resource/base/lib/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    (function ($) {
+      $.fn.sideToggle = function (options) {
+        var settings = $.extend({
+          moving: null,
+          direction: null
+        }, options);
+
+        return this.click(function () {
+          var thisDir = {};
+          var moveThis = settings.moving;
+          var dirPos = parseInt($(moveThis).css(settings.direction), 10);
+          var menuWidth = $(moveThis).outerWidth();
+
+          if (isNaN(dirPos)) {
+            console.log("请在CSS中定义对象的位置");
+          }
+
+          if (dirPos === 0) {
+            thisDir[settings.direction] = -menuWidth;
+            $(moveThis).animate(thisDir);
+          } else {
+            thisDir[settings.direction] = 0;
+            $(moveThis).animate(thisDir);
+          }
+        });
+      };
+    }(jQuery));
+
+    // 初始化侧边菜单点击事件
+    $(document).ready(function () {
+      $('#sideMenu').sideToggle({
+        moving: '#sideMenuContainer',
+        direction: 'left'
+      });
+    });
+
+    // 切换颜色函数
+    var t = 1;
+
+    function test(x) {
+      if (x == 1 && t == 1) {
+        document.getElementById(x).style.color = "red";
+      } else if (x != t) {
+        document.getElementById(x).style.color = "red";
+        document.getElementById(t).style.color = "orange";
+      }
+      t = x;
+    }
+  </script>
+
+  <!-- 动态加载参数脚本 -->
+  <script>
+    // 获取 URL 参数
+    function getUrlParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    const videoId = getUrlParam('id');
+    const channelName = getUrlParam('name');
+
+    // 设置页面标题
+    if (channelName) {
+      document.title = `${channelName} - 冰豆直播`;
+      document.getElementById("channel-name").textContent = channelName;
+    } else {
+      document.getElementById("channel-name").textContent = "未知频道";
+    }
+
+    // 设置 iframe 源地址
+    if (videoId) {
+      document.getElementById("player-frame").src = "../?id=" + encodeURIComponent(videoId);
+    } else {
+      document.getElementById("player-frame").src = "";
+      document.getElementById("player-frame").style.display = "none";
+    }
+  </script>
+<div id="foot"></div>
+<script>
+$('#foot').load('../../foot.html', function(response, status, xhr) {
+  if (status === "error") {
+    console.error("加载失败");
+  }
+});
+</script>
+</body>
+</html>
