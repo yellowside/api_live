@@ -51,9 +51,9 @@ html, body{margin: 0px 0px;width: 100%;height: 100%;}body {overflow:hidden;font-
       document.getElementById("video-title").innerText = "无效的视频ID";
     } else {
       if (isMobileDevice()) {
-        apiUrl = `https://json.bingdou.cc/tv/m/?id=${videoid}`;
+        apiUrl = `https://json.bingdou.cc/tv/?id=${videoid}`;
       } else {
-        apiUrl = `https://json.bingdou.cc/tv/pc/?id=${videoid}`;
+        apiUrl = `https://json.bingdou.cc/tv/?id=${videoid}`;
       }
 
       fetch(apiUrl)
@@ -69,14 +69,14 @@ html, body{margin: 0px 0px;width: 100%;height: 100%;}body {overflow:hidden;font-
           // 设置默认播放器链接
           if (list.length > 0) {
             const defaultUrl = btoa(list[0].play_url); // base64 encode
-            document.getElementById("player-iframe").src = `https://player.misidao.cn/base64/live/?url=${defaultUrl}`;
+            document.getElementById("player-iframe").src = `https://player.bingdou.vip/url/?url=${defaultUrl}`;
           }
 
           // 渲染线路列表
           const lineListDiv = document.getElementById("line-list");
           list.forEach((item, index) => {
             const link = document.createElement("a");
-            link.href = `https://player.misidao.cn/base64/live/?url=${btoa(item.play_url)}`;
+            link.href = `https://player.bingdou.vip/url/?url=${btoa(item.play_url)}`;
             link.target = "player";
             link.innerHTML = `<i class="fa fa-play-circle"></i>`;
             link.title = item.line;
