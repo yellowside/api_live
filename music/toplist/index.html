@@ -4,7 +4,6 @@
     <meta charset="utf-8"/>
     <title>加载中... - 冰豆直播</title>
     <style>
-        /* --- Reset & Base Styles --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { width: 100%; height: 100%; }
         body { 
@@ -12,8 +11,6 @@
             font-size: 14px; color: #999; background-color: #000; overflow: hidden;
             -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
         }
-
-        /* --- Layout --- */
         .app-container { display: flex; flex-direction: column; height: 100%; background-color: #23262E; }
         .header { 
             display: flex; align-items: center; height: 40px; padding: 0 10px; 
@@ -22,16 +19,12 @@
         .category-name { color: #fcfcfc; }
         .main-content { flex-grow: 1; position: relative; }
         #listplayer { width: 100%; height: 100%; border: none; background-color: #000; }
-
-        /* --- Side Menu --- */
         .side-menu-container { 
             position: fixed; top: 40px; right: -200px; width: 160px; height: calc(100% - 40px);
             background-color: #202020; padding: 10px; z-index: 20;
             transition: right 0.3s ease-in-out;
         }
         .side-menu-container.is-open { right: 0; }
-
-        /* --- Scrollbar Styling --- */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1e1e1e; }
         ::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
@@ -53,44 +46,14 @@
     </main>
     <aside id="sideMenuContainer" class="side-menu-container"></aside>
 </div>
-
-<div id="foot"></div>
 <script defer>
-    // --- DOM 元素引用 ---
     const categoryEl = document.getElementById('category-name');
     const listplayerIframe = document.getElementById('listplayer');
-    const footEl = document.getElementById('foot');
-
-    // --- 功能函数 ---
-
-    /**
-     * 异步加载页脚内容
-     * 使用原生 fetch API 替代 jQuery 的 $.load()
-     */
-    async function loadFooter() {
-        try {
-            const response = await fetch('../foot.html');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            footEl.innerHTML = await response.text();
-        } catch (error) {
-            console.error("加载页脚失败:", error);
-            // 可选：在页面上显示一个友好的错误提示
-            footEl.innerHTML = '<p style="text-align:center; padding: 10px; color: #666;">页脚加载失败</p>';
-        }
-    }
-
-    /**
-     * 初始化页面逻辑
-     */
     function initPage() {
-        // 1. 从 URL 获取 'cat' 和 'id' 参数
         const urlParams = new URLSearchParams(window.location.search);
         const cat = urlParams.get('cat');
         const id = urlParams.get('id');
 
-        // 2. 动态设置页面标题和顶部栏
         if (cat) {
             document.title = `${cat} - 冰豆直播`;
             categoryEl.textContent = cat;
@@ -98,20 +61,14 @@
             categoryEl.textContent = '未指定分类';
         }
 
-        // 3. 动态设置 iframe 的 src
         if (id) {
             listplayerIframe.src = `../?id=${encodeURIComponent(id)}`;
         } else {
-            // 如果没有id，可以显示一个提示页面
             listplayerIframe.src = 'about:blank';
         }
     }
-
-    // --- 初始化 ---
-    // 因为使用了 defer，此脚本会在DOM解析完成后执行
     initPage();
-    loadFooter();
-
 </script>
+<script type="text/javascript" src="https://js.users.51.la/21659431.js"></script>
 </body>
 </html>
