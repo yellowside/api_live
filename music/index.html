@@ -5,9 +5,7 @@
     <meta name="referrer" content="no-referrer"/>
     <title>Music - 冰豆直播</title>
     <link rel="stylesheet" href="https://cdnjs.bingdou.com.cn/ajax/libs/aplayer/1.10.1/APlayer.min.css">
-    
     <style>
-        /* 基础样式和加载动画 */
         body {
             margin: 0;
             background-color: #111;
@@ -18,12 +16,11 @@
             -ms-user-select: none;
             user-select: none;
         }
-        /* 加载指示器 */
         .loader {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 120px; /* APlayer的大致高度 */
+            height: 120px;
             font-size: 14px;
             color: #aaa;
         }
@@ -40,7 +37,6 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        /* 自定义滚动条 */
         ::-webkit-scrollbar{width: 12px;height: 12px;}
         ::-webkit-scrollbar-track{border-radius: 8px; background-color: rgba(225,255,255,.1);}
         ::-webkit-scrollbar-thumb{border-radius: 8px; background-color: rgba(23,124,176,.8);}
@@ -48,46 +44,13 @@
     </style>
 </head>
 <body oncontextmenu="return false">
-
-<!-- 播放器容器，初始显示加载动画 -->
 <div id="aplayer-container">
     <div class="loader">数据加载中</div>
 </div>
-
-<!-- 页脚容器 -->
-<div id="foot"></div>
-
-<!-- 播放器核心JS，使用defer，不阻塞渲染 -->
 <script src="https://cdnjs.bingdou.com.cn/ajax/libs/aplayer/1.10.1/APlayer.min.js" defer></script>
-
-<!-- 所有自定义逻辑合并到一个脚本中，也使用defer -->
 <script defer>
-    // --- DOM 元素引用 ---
     const aplayerContainer = document.getElementById('aplayer-container');
-    const footContainer = document.getElementById('foot');
 
-    // --- 功能函数 ---
-
-    /**
-     * 异步加载页脚内容
-     * 使用原生 fetch API 替代 jQuery 的 $.load()
-     */
-    async function loadFooter() {
-        try {
-            const response = await fetch('../foot.html');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            footContainer.innerHTML = await response.text();
-        } catch (error) {
-            console.error("加载页脚失败:", error);
-            footContainer.innerHTML = '<p style="text-align:center; padding: 10px; color: #666;">页脚加载失败</p>';
-        }
-    }
-
-    /**
-     * 从API获取音乐数据并初始化播放器
-     */
     async function initPlayer() {
         const urlParams = new URLSearchParams(window.location.search);
         const musicId = urlParams.get('id');
@@ -133,7 +96,7 @@
                 mutex: true,
                 autoplay: true,
                 listFolded: false,
-                listMaxHeight: '350px', // 建议设置一个最大高度，而不是100%
+                listMaxHeight: '100%',
                 lrcType: 3,
                 audio: audioList
             });
@@ -144,11 +107,8 @@
         }
     }
 
-    // --- 初始化 ---
-    // 因为使用了 defer，此脚本会在DOM解析完成后执行
-    // 所以无需再监听 DOMContentLoaded 事件
     initPlayer();
-    loadFooter();
 </script>
+<script type="text/javascript" src="https://js.users.51.la/21659431.js"></script>
 </body>
 </html>
