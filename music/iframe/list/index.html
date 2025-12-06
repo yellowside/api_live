@@ -1,94 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>音乐分类列表</title>
-<style type="text/css">
-* {margin: 0;padding: 0;outline: none;}
-html {height: 100%; }
-*html{background-image:url(about:blank);background-attachment:fixed;}
-body{height:100%;background:#232323;}
-body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; }
-h1, h2, h3, h4, h5, h6 { font-size:100%; }
-/*定位*/
-.none { display:none }
-/*通用*/
-.bingdoutv{ width:100%;height:100%;}
-.main {overflow:hidden; zoom:1 }
-.main .left-sider { float:left; width:100%; }
-.operate h3 { font-family: "Microsoft YaHei",微软雅黑; font-size:16px; background:#232323 url("../../../images/w-ico.png") 15px center no-repeat;_background:#232323 url("../../../images/w-ico-ie.png") 15px center no-repeat; height:43px; line-height:43px; padding-left:12px;color:#888;text-indent:30px; }
-.operate ul li { display:inline; margin-bottom:1px;}
-.operate ul li a { text-decoration:none; font-size:14px; color:#888; display:block;  height:43px;  line-height:43px;  }
-.operate ul li a.noline { border-bottom:none; }
-.operate ul li a:hover{ color:#eee;text-decoration:none;background:url("../../../images/w-ico20.png") 10px 10px no-repeat;_background:url("../../../images/w-ico20-ie.png") 10px 10px no-repeat;}
-.operate ul li a.sel{ color:#eee;text-decoration:none;background:url("../../../images/w-ico20.png") 10px 10px no-repeat;_background:url("../../../images/w-ico20-ie.png") 10px 10px no-repeat;}
-.operate ul li a.selected:hover { color:#fff; }
-.operate ul li .selected { background-color:#eee;  background-position:200px -9px; color:#fff; }
-.operate ul li {  display:inline-block; width:100%; position: relative; min-height:43px; _height:43px; z-index: 10; zoom:1 }
+<style>
+* {margin:0;padding:0;outline:none;box-sizing:border-box;}
+html,body {height:100%;background:#232323;}
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td {margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6 {font-size:100%;}
+.bingdoutv {width:100%;height:100%;}
+.main {overflow:hidden;}
+.main .left-sider {float:left;width:100%;}
+.operate h3 {font:16px "Microsoft YaHei",微软雅黑;background:#232323 url("../../../images/w-ico.png") 15px center no-repeat;height:43px;line-height:43px;padding-left:42px;color:#888;}
+.operate ul li {display:block;width:100%;position:relative;min-height:43px;z-index:10;margin-bottom:1px;}
 .operate ul li h1 {color:#d7d7d7;font-size:14px;height:30px;line-height:30px;padding-left:30px;border-bottom:1px solid #303030;}
-.operate ul li h4 { cursor:pointer; background:#2e2e2e url(https://gh.bingdou.com.cn/gh/yellowside/bingdoutv/images/bg3.png) no-repeat 10px 18px; padding-left:30px; text-decoration:none; font-size:14px; color:#999; display:block;  line-height:43px; font-weight:normal; }
-.operate ul li.noline { border-bottom:none; }
-.operate ul li h4:hover { color:#eee; text-decoration:none; }
-.operate ul li.selected h4 { background-position:10px -37px; }
-.operate ul li a { }
-.operate ul li .on a { color:#eee; font-weight:bold; }
-.operate ul li a:hover { color:#eee; text-decoration:none;}
-.bg-color { background-color:#8caf00; }
-.operate li .list-item { padding:5px 0; position:relative; zoom:1;background:#232323; }
-.operate li .list-item p { padding-left:8px;white-space:nowrap;}
-.operate li .list-item a { background:none;  border:none; color: #888; display:block; height:32px; line-height: 32px; margin: 0 -1px 0 1px; padding-left: 30px;  position: relative; text-decoration: none; font-size:12px;background:url("../../../images/w-ico19.png") 10px 10px no-repeat;_background:url("../../../images/w-ico19-ie.png") 10px 10px no-repeat; }
-::-webkit-scrollbar{width: 12px;height: 12px;}/*滚动条整体*/
-::-webkit-scrollbar-track{border-radius: 8px; background-color: rgba(225,255,255,.8);}/*轨道*/
-::-webkit-scrollbar-thumb{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.2); background-color: rgba(23,124,176,.8);}/*滑块*/
-::-webkit-scrollbar-thumb:hover{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(255,250,250,.2); background-color: rgba(255,78,32,.8);}/*效果*/
+.operate ul li h4 {cursor:pointer;background:#2e2e2e url(../../../images/bg3.png) no-repeat 10px 18px;padding-left:30px;font-size:14px;color:#999;line-height:43px;font-weight:normal;transition:color 0.2s;}
+.operate ul li h4:hover {color:#eee;}
+.operate ul li.selected h4 {background-position:10px -37px;}
+.operate li .list-item {position:relative;background:#232323;overflow:hidden;transition:height 0.3s ease;height:0;  display:block;}
+.operate li .list-item.none {display:none;}
+.operate li .list-item p {padding-left:8px;white-space:nowrap;}
+.operate li .list-item a {background:url("../../../images/w-ico19.png") 10px 10px no-repeat;color:#888;display:block;height:32px;line-height:32px;margin:0 -1px 0 1px;padding-left:30px;position:relative;text-decoration:none;font-size:12px;transition:color 0.2s;}
+.operate ul li a:hover,.operate ul li a.sel,.operate ul li .on a {color:#eee;background:url("../../../images/w-ico20.png") 10px 10px no-repeat;text-decoration:none;}
+.operate ul li .on a {font-weight:bold;}
+.operate ul li h4.hover,.operate ul li p.hover:not(.on) {color:#eee;}
+::-webkit-scrollbar {width:12px;height:12px;}
+::-webkit-scrollbar-track {border-radius:8px;background-color:rgba(225,255,255,.8);}
+::-webkit-scrollbar-thumb {border-radius:8px;-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.2);background-color:rgba(23,124,176,.8);}
+::-webkit-scrollbar-thumb:hover {border-radius:8px;-webkit-box-shadow:inset 0 0 6px rgba(255,250,250,.2);background-color:rgba(255,78,32,.8);}
 </style>
-<script src="https://player.alicdn.com/resource/base/lib/jquery-1.8.3.min.js"></script>
-<script>
-// JavaScript Document
-function navList(id) {
-    var $obj = $("#J_navlist"), $item = $("#J_nav_" + id);
-    $item.addClass("on").parent().removeClass("none").parent().addClass("selected");
-    $obj.find("h4").hover(function () {
-        $(this).addClass("hover");
-    }, function () {
-        $(this).removeClass("hover");
-    });
-    $obj.find("p").hover(function () {
-        if ($(this).hasClass("on")) { return; }
-        $(this).addClass("hover");
-    }, function () {
-        if ($(this).hasClass("on")) { return; }
-        $(this).removeClass("hover");
-    });
-    $obj.find("h4").click(function () {
-        var $div = $(this).siblings(".list-item");
-        if ($(this).parent().hasClass("selected")) {
-            $div.slideUp(600);
-            $(this).parent().removeClass("selected");
-        }
-        if ($div.is(":hidden")) {
-            $("#J_navlist li").find(".list-item").slideUp(600);
-            $("#J_navlist li").removeClass("selected");
-            $(this).parent().addClass("selected");
-            $div.slideDown(600);
-
-        } else {
-            $div.slideUp(600);
-        }
-    });
-}
-</script>
 </head>
-<body oncontextmenu="return false" onselectstart="return false">
+<body>
 <div class="bingdoutv">
   <div class="main">
     <div class="left-sider">
       <div class="operate">
-        <h3><i class="fa fa-bars"></i> 音乐分类<a style="margin-left:5px;color:#888;text-decoration:none;font-size:13px;" rel="nofollow" href='javascript:location.reload()'>(刷新)</a></h3>
+        <h3>音乐分类<a style="margin-left:5px;color:#888;text-decoration:none;font-size:13px;" rel="nofollow" href='javascript:location.reload()'>(刷新)</a></h3>
         <ul id="J_navlist">
-      <li>
-            <div class="list-item">
-      <h1>特色榜</h1>
+          <li class="selected">
+            <div class="list-item" style="height: auto;">
+              <h1>特色榜</h1>
             <p><a href="../../toplist/?cat=飙升榜&id=19723756" target="play" title="飙升榜">飙升榜</a></p>
             <p><a href="../../toplist/?cat=新歌榜&id=3779629" target="play" title="新歌榜">新歌榜</a></p>
             <p><a href="../../toplist/?cat=原创榜&id=2884035" target="play" title="原创榜">原创榜</a></p>
@@ -175,29 +127,86 @@ function navList(id) {
     </div>
   </div>
 </div>
-<script>
-        window.onload = function(){
-            document.onkeydown = function (){
-                var e = window.event || arguments[0];
-                //F12
-                if(e.keyCode == 123){
-                    return false;
-                //Ctrl+Shift+I
-                }else if((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)){
-                    return false;
-                //Shift+F10
-                }else if((e.shiftKey) && (e.keyCode == 121)){
-                    return false;
-                //Ctrl+U
-                }else if((e.ctrlKey) && (e.keyCode == 85)){
-                    return false;
-                }
-            };
-            document.oncontextmenu = function (){
-                return false;
-            }
+<script defer>
+// 工具函数：简化DOM操作
+const $ = (selector, context = document) => context.querySelector(selector);
+const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+
+// slideUp：收起
+const slideUp = (el, duration = 300) => {
+  const height = el.offsetHeight;
+  el.style.height = height + 'px';
+  void el.offsetHeight; // 强制重排
+  el.style.height = '0px';
+};
+
+// slideDown：展开
+const slideDown = (el, duration = 300) => {
+  // 确保元素可计算高度（即使 height=0）
+  el.style.height = '0px';
+  void el.offsetHeight;
+  const fullHeight = el.scrollHeight; // 👈 关键：用 scrollHeight 而非 offsetHeight
+  el.style.height = fullHeight + 'px';
+
+  setTimeout(() => {
+    el.style.height = 'auto';
+  }, duration);
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.oncontextmenu = () => false;
+  document.body.onselectstart = () => false;
+
+  function navList() {
+    const $obj = $('#J_navlist');
+
+    $obj.addEventListener('mouseenter', function(e) {
+      const target = e.target;
+      if (target.tagName === 'H4' || (target.tagName === 'P' && !target.classList.contains('on'))) {
+        target.classList.add('hover');
+      }
+    });
+
+    $obj.addEventListener('mouseleave', function(e) {
+      const target = e.target;
+      if (target.tagName === 'H4' || (target.tagName === 'P' && !target.classList.contains('on'))) {
+        target.classList.remove('hover');
+      }
+    });
+
+    $obj.addEventListener('click', function(e) {
+      const h4 = e.target.closest('h4');
+      if (!h4) return;
+
+      const li = h4.parentElement;
+      const listItem = $('.list-item', li);
+      const isSelected = li.classList.contains('selected');
+      const allLis = $$('li', $obj);
+
+      // 收起所有已展开项
+      allLis.forEach(item => {
+        const itemContent = $('.list-item', item);
+        if (item !== li) {
+          slideUp(itemContent);
+          item.classList.remove('selected');
         }
+      });
+
+      if (isSelected) {
+        // 当前已选中，点击则收起
+        slideUp(listItem);
+        li.classList.remove('selected');
+      } else {
+        // 展开当前项
+        li.classList.add('selected');
+        slideDown(listItem);
+      }
+    });
+  }
+
+  navList();
+});
 </script>
-<script type="text/javascript" src="https://js.users.51.la/21659431.js"></script>
+<script src="https://js.users.51.la/21659431.js"></script>
 </body>
 </html>

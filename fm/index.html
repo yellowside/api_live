@@ -3,80 +3,95 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="referrer" content="no-referrer"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8;"/>
-<title>fm</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FM - 冰豆直播</title>
 <link rel="stylesheet" href="https://cdnjs.misidao.cn/ajax/libs/aplayer/1.10.1/APlayer.min.css">
-<script src="https://player.alicdn.com/resource/base/lib/jquery-1.8.3.min.js"></script>
-<script src="https://cdnjs.misidao.cn/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script>
-<style type="text/css">
-h1{font-size:14px; color:#fff}
-::-webkit-scrollbar{width: 12px;height: 12px;}/*滚动条整体*/
-::-webkit-scrollbar-track{border-radius: 8px; background-color: rgba(225,255,255,.8);}/*轨道*/
-::-webkit-scrollbar-thumb{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.2); background-color: rgba(23,124,176,.8);}/*滑块*/
-::-webkit-scrollbar-thumb:hover{border-radius: 8px; -webkit-box-shadow: inset 0 0 6px rgba(255,250,250,.2); background-color: rgba(255,78,32,.8);}/*效果*/
+<style>
+body {margin:0;background-color:#111;color:#2c3e50;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+.loader {display:flex;justify-content:center;align-items:center;height:120px;font-size:14px;color:#aaa;}
+.loader::after {content:'';width:20px;height:20px;margin-left:10px;border:2px solid #aaa;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin {to {transform:rotate(360deg);}
+}
+::-webkit-scrollbar {width:12px;height:12px;}
+::-webkit-scrollbar-track {border-radius:8px;background-color:rgba(225,255,255,.1);}
+::-webkit-scrollbar-thumb {border-radius:8px;background-color:rgba(23,124,176,.8);}
+::-webkit-scrollbar-thumb:hover {background-color:rgba(255,78,32,.8);}
 </style>
 </head>
-<body oncontextmenu="return false" onselectstart="return false">
-<div id="APlayer"><h1>数据加载中…</h1></div>
-<script>
-  // 获取 URL 中的 id 参数
-  const urlParams = new URLSearchParams(window.location.search);
-  const videoid = urlParams.get('id');
+<body oncontextmenu="return false">
+<div id="aplayer-container">
+    <div class="loader">数据加载中</div>
+</div>
+<script src="https://cdnjs.misidao.cn/ajax/libs/aplayer/1.10.1/APlayer.min.js" defer></script>
+<script defer>
+    // --- DOM 元素引用 ---
+    const aplayerContainer = document.getElementById('aplayer-container');
 
-  if (!videoid) {
-    document.querySelector('#APlayer h1').innerText = '无效的视频ID';
-    throw new Error("缺少 id 参数");
-  }
+    // --- 功能函数 ---
 
-  const apiUrl = 'https://json.bingdou.cc/fm/?id=' + encodeURIComponent(videoid);
+    /**
+     * 从API获取音乐数据并初始化播放器
+     */
+    async function initPlayer() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const musicId = urlParams.get('id');
 
-  fetch(apiUrl)
-    .then(response => {
-      if (!response.ok) throw new Error("网络请求失败：" + response.status);
-      return response.json();
-    })
-    .then(json => {
-      if (!json.data || !Array.isArray(json.data)) {
-        throw new Error("无效的数据结构");
-      }
+        if (!musicId) {
+            aplayerContainer.innerHTML = '<h1 style="color: #ff4d4f;">错误：未提供音乐ID</h1>';
+            return;
+        }
 
-      const result = json.data.map(item => ({
-        title: item.title,
-        author: item.author,
-        pic: item.pic,
-        url: item.url
-      }));
+        const apiUrl = `https://json.bingdou.cc/fm/?id=${encodeURIComponent(musicId)}`;
 
-      // 创建播放器
-      const demo = new APlayer({
-        element: document.getElementById('APlayer'),
-        showlrc: false,
-        fixed: false,
-        mini: false,
-        volume: 0.9,
-        preload: 'auto',
-        mutex: true,
-        autoplay: true,
-        listFolded: false,
-        listmaxheight: '100%',
-        audio: result
-      });
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`网络请求失败，状态码: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            if (!data || !data.data || !Array.isArray(data.data)) {
+                throw new Error('返回的数据格式不正确');
+            }
+            
+            const audioList = data.data.map(item => ({
+                name: item.title || '未知歌曲',
+                artist: item.author || '未知歌手',
+                url: item.url,
+                cover: item.pic, // APlayer使用 cover 而不是 pic
+            }));
+            
+            if (audioList.length === 0) {
+                throw new Error('歌单为空');
+            }
 
-      demo.init();
+            // 清除加载动画，创建播放器实例
+            aplayerContainer.innerHTML = ''; // 清空容器
+            const ap = new APlayer({
+                container: aplayerContainer,
+                fixed: false,
+                mini: false,
+                volume: 0.7,
+                preload: 'auto',
+                mutex: true,
+                autoplay: true,
+                listFolded: false,
+                listMaxHeight: '100%',
+                lrcType: 0, // 关闭歌词
+                audio: audioList
+            });
+            // APlayer构造函数会自动初始化，无需手动调用 .init()
 
-    })
-    .catch(error => {
-      console.error(error);
-      document.querySelector('#APlayer h1').innerText = '数据加载失败，请刷新重试。';
-    });
+        } catch (error) {
+            console.error('初始化播放器失败:', error);
+            aplayerContainer.innerHTML = `<h1 style="color: #ff4d4f;">加载失败: ${error.message}</h1>`;
+        }
+    }
+
+    // --- 初始化 ---
+    // 因为使用了 defer，此脚本会在DOM解析完成后执行
+    initPlayer();
 </script>
-<div id="foot"></div>
-<script>
-$('#foot').load('../foot.html', function(response, status, xhr) {
-  if (status === "error") {
-    console.error("加载失败");
-  }
-});
-</script>
+<script src="https://js.users.51.la/21659431.js"></script>
 </body>
 </html>
