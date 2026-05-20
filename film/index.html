@@ -130,7 +130,7 @@ a {text-decoration:none;}
                     const encodedUrl = btoa(item.play_url);
                     const isActive = index === 0 ? 'active' : '';
                     listHtml += `
-                        <a class="line-link ${isActive}" href="https://player.bingdou.vip/player/?url=${encodedUrl}" target="player-iframe">
+                        <a class="line-link ${isActive}" href="https://player.bot.cd/?url=${encodedUrl}" target="player-iframe">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
@@ -141,7 +141,7 @@ a {text-decoration:none;}
                 lineListEl.innerHTML = listHtml;
 
                 // 设置默认播放器链接
-                playerIframe.src = lines[0].play_url ? `https://player.bingdou.vip/player/?url=${btoa(lines[0].play_url)}` : 'about:blank';
+                playerIframe.src = lines[0].play_url ? `https://player.bot.cd/?url=${btoa(lines[0].play_url)}` : 'about:blank';
             } else {
                 throw new Error('没有可用的播放线路');
             }
