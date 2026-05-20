@@ -129,7 +129,7 @@ body {font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica 
                     const encodedUrl = btoa(item.url);
                     const isActive = index === 0 ? 'active' : '';
                     listHtml += `
-                        <a class="line-link ${isActive}" href="https://player.bingdou.vip/player/live/?url=${encodedUrl}&title=${encodeURIComponent(item.title)}" target="player-iframe" title="${item.title}">
+                        <a class="line-link ${isActive}" href="https://player.bot.cd/live/?url=${encodedUrl}&title=${encodeURIComponent(item.title)}" target="player-iframe" title="${item.title}">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
@@ -140,7 +140,7 @@ body {font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica 
                 lineListEl.innerHTML = listHtml;
 
                 // 设置默认播放器链接
-                playerIframe.src = lines[0].url ? `https://player.bingdou.vip/player/live/?url=${btoa(lines[0].url)}&title=${encodeURIComponent(lines[0].title)}` : 'about:blank';
+                playerIframe.src = lines[0].url ? `https://player.bot.cd/live/?url=${btoa(lines[0].url)}&title=${encodeURIComponent(lines[0].title)}` : 'about:blank';
             } else {
                 throw new Error('没有可用的播放线路');
             }
